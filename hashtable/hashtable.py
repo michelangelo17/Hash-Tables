@@ -73,9 +73,6 @@ class HashTable:
         """
 
         key_index = self.hash_index(key)
-
-        # self.storage[self.hash_index(key)] = value
-
         cur_node = self.storage[key_index]
 
         if not cur_node:
