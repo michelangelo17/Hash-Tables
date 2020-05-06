@@ -21,6 +21,7 @@ class HashTable:
         self.capacity = capacity
         self.storage = [None] * capacity
         self.load = 0
+        self.min_size = capacity * 2
 
     def fnv1(self, key):
         """
@@ -119,7 +120,7 @@ class HashTable:
         if cur_node.key == key:
             self.storage[key_index] = cur_node.next
             cur_node.next = None
-            if load_factor < .25:
+            if load_factor < .2 and self.capacity >= self.min_size:
                 self.resize(self.capacity // 2)
             return
 
@@ -128,7 +129,7 @@ class HashTable:
                 delete_node = cur_node.next
                 cur_node.next = delete_node.next
                 delete_node.next = None
-                if load_factor < .25:
+                if load_factor < .2 and self.capacity >= self.min_size:
                     self.resize(self.capacity // 2)
                 return
             else:
@@ -190,16 +191,18 @@ if __name__ == "__main__":
 
     # Test resizing
 
-    ht.resize(20)
+    # ht.resize(4)
+    # ht.delete('line_3')
+    ht.delete('line_2')
+    ht.delete('line_1')
+
     new_capacity = len(ht.storage)
 
     print(f"\nResized from {old_capacity} to {new_capacity}.\n")
 
-    ht.delete('line_2')
-    ht.delete('line_1')
     # # Test if data intact after resizing
-    print(ht.get("line_1"))
-    print(ht.get("line_2"))
-    print(ht.get("line_3"))
+    # print(ht.get("line_1"))
+    # print(ht.get("line_2"))
+    # print(ht.get("line_3"))
 
-    print(len(ht.storage), 'final')
+    # print(len(ht.storage), 'final')
