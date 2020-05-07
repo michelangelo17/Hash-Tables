@@ -154,7 +154,7 @@ class HashTable:
                 cur_node = cur_node.next
         return cur_node
 
-    def resize(self, new_capacity=None):
+    def resize(self, new_capacity):
         """
         Doubles the capacity of the hash table and
         rehash all key/value pairs.
@@ -162,19 +162,16 @@ class HashTable:
         Implement this.
         """
 
-        if not new_capacity:
-            return
-
-        dbl_hashtable = HashTable(new_capacity)
+        resized_hashtable = HashTable(new_capacity)
         for i in self.storage:
             node = i
             while node:
-                dbl_hashtable.put(node.key, node.value)
+                resized_hashtable.put(node.key, node.value)
                 node = node.next
         self.capacity = new_capacity
-        self.load = dbl_hashtable.load
-        self.storage = dbl_hashtable.storage
-        del dbl_hashtable
+        self.load = resized_hashtable.load
+        self.storage = resized_hashtable.storage
+        del resized_hashtable
 
 
 if __name__ == "__main__":
