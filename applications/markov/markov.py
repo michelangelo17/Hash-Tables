@@ -17,31 +17,26 @@ with open("input.txt") as f:
     def check_start(word):
         if word[0].isupper() or word[0] == '"' and word[len(word) - 1] != '.':
             return True
-        return False
 
     start_words = [word for word in combos.keys() if check_start(word)]
 
     def check_open_quote(word):
         if word[0] == '"':
             return True
-        return False
 
     def check_close_quote(word):
         if word[len(word) - 1] == '"':
             return True
-        return False
 
     def check_stop_quote(word):
         end = word[-2:]
         if end == '."' or end == '!"' or end == '?"':
             return True
-        return False
 
     def check_stop(word):
         end = word[-1:]
         if end == '.' or end == '!' or end == '?':
             return True
-        return False
 
     for _ in range(5):
         word = random.choice(start_words)
@@ -62,7 +57,15 @@ with open("input.txt") as f:
             if not open_quote:
                 while check_close_quote(word):
                     word = random.choice(combos[word])
+            else:
+                while(check_open_quote(word)):
+                    word = random.choice(combos[word])
+
         if open_quote:
-            while not check_close_quote(word):
+            while not check_stop_quote(word):
                 word = random.choice(combos[word])
+        else:
+            while check_close_quote(word):
+                word = random.choice(combos[word])
+
         print(word, '\n\n')
